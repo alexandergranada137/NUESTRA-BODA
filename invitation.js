@@ -1,5 +1,5 @@
 /* One-shot entrances establish narrative hierarchy; no scroll hijacking or loops. */
-(() => {
+const initializeInvitation = () => {
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const control = document.querySelector('.motion-control');
   let userReduced = false;
@@ -47,7 +47,10 @@
     document.querySelectorAll('.story>div:last-child,.story-images,.quote blockquote,#boda>h2,.details-grid,.people,.program>h2,.timeline,.wide-photo>div,.wide-photo>img,.rsvp,.baby-intro,.baby-gallery').forEach(el=>observer.observe(el));
   }
   document.addEventListener('focusin',() => {active.forEach(a=>a.finish());active.clear();});
-  document.querySelector('details').addEventListener('toggle',event=>{
+  document.querySelector('details')?.addEventListener('toggle',event=>{
     if(event.currentTarget.open) event.currentTarget.querySelectorAll('.moment').forEach((el,i)=>{seen.delete(el);enter(el,i*40,240)});
   });
-})();
+};
+if (document.querySelector('#envelope-intro')?.open) document.addEventListener('invitation:opened', initializeInvitation, {once:true});
+else initializeInvitation();
+

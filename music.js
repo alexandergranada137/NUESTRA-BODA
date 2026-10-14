@@ -27,7 +27,7 @@
     finally { pending = false; update(); }
   }
   function firstInteraction(event) {
-    if (userPaused || button.contains(event.target)) return;
+    if (userPaused || button.contains(event.target) || document.querySelector('#envelope-intro')?.open) return;
     if (event.type === 'keydown' && !['Enter',' '].includes(event.key)) return;
     play();
   }
@@ -52,5 +52,7 @@
   document.addEventListener('pointerup',firstInteraction);
   document.addEventListener('keydown',firstInteraction);
   update();
-  play();
+  document.addEventListener('invitation:opening', play, {once:true});
+  if (!document.querySelector('#envelope-intro')?.open) play();
 })();
+
